@@ -1,0 +1,57 @@
+{
+  "name": "angular2-components",
+  "version": "1.0.0",
+  "description": "Basic and useful components for any project in Angular 2.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesandtags/angular2-components.git"
+  },
+  "keywords": [
+    "Angular 2",
+    "Angular components",
+    "Babel",
+    "NodeJs",
+    "ES6",
+    "Eslint",
+    "Bootstrap"
+  ],
+  "author": "Edwin Torres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codesandtags/angular2-components/issues"
+  },
+  "homepage": "https://github.com/codesandtags/angular2-components#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.0.15",
+    "babel-preset-latest": "^6.16.0",
+    "browser-sync": "^2.9.0",
+    "del": "^2.0.2",
+    "eslint-config-google": "^0.3.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.0.0",
+    "gulp-cache": "0.2.2",
+    "gulp-concat": "^2.5.2",
+    "gulp-cssnano": "^2.0.0",
+    "gulp-eslint": "^3.0.0",
+    "gulp-file": "^0.3.0",
+    "gulp-htmlmin": "^1.3.0",
+    "gulp-if": "^2.0.0",
+    "gulp-imagemin": "^2.0.0",
+    "gulp-load-plugins": "^1.0.0",
+    "gulp-newer": "^1.0.0",
+    "gulp-param": "^1.0.3",
+    "gulp-sass": "^2.0.0",
+    "gulp-size": "^2.0.0",
+    "gulp-sourcemaps": "^1.3.0",
+    "gulp-uglify": "^1.0.1",
+    "gulp-useref": "^3.0.0",
+    "run-sequence": "^1.0.1",
+    "yargs": "^6.6.0"
+  }
+}
