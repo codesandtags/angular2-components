@@ -1,0 +1,18 @@
+@import "common";
+@import "mixins";
+
+/*------------------------------------------------- */
+/* Main Styles
+/*------------------------------------------------- */
+html {
+  height: 100%;
+}
+
+body {
+  @include linearGradient($bg-color2, $bg-color1, 95%);
+  color: $text-color;
+}
+
+h1, h2 {
+  color: $heading-color;
+}

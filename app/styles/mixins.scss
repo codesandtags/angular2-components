@@ -1,0 +1,5 @@
+/* Create a linear gradient using two colors */
+@mixin linearGradient($top, $bottom, $percentage){
+  background: $top linear-gradient($top, $bottom $percentage);
+  filter:            progid:DXImageTransform.Microsoft.gradient(topStr='#{$top}', bottomStr='#{$bottom}');
+}

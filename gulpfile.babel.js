@@ -55,39 +55,6 @@ gulp.task('copy', () => {
     }
 );
 
-// Compile and automatically prefix stylesheets
-gulp.task('styles', () => {
-    const AUTOPREFIXER_BROWSERS = [
-        'ie >= 10',
-        'ie_mob >= 10',
-        'ff >= 30',
-        'chrome >= 34',
-        'safari >= 7',
-        'opera >= 23',
-        'ios >= 7',
-        'android >= 4.4',
-        'bb >= 10'
-    ];
-
-    // For best performance, don't add Sass partials to `gulp.src`
-    return gulp.src([
-        'app/styles/**/*.scss',
-        'app/styles/**/*.css'
-    ])
-        .pipe($.newer('.tmp/styles'))
-        .pipe($.sourcemaps.init())
-        .pipe($.sass({
-            precision: 10
-        }).on('error', $.sass.logError))
-        .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-        .pipe(gulp.dest('.tmp/styles'))
-        // Concatenate and minify styles
-        .pipe($.if('*.css', $.cssnano()))
-        .pipe($.size({title: 'styles'}))
-        .pipe($.sourcemaps.write('./'))
-        .pipe(gulp.dest('dist/styles'));
-});
-
 gulp.task('copy-components', () => {
     gulp.src([
         './app/scripts/components/**/*.js',
@@ -144,6 +111,42 @@ gulp.task('scripts', () =>
         .pipe(gulp.dest('dist/scripts'))
 );
 
+// Compile and automatically prefix stylesheets
+gulp.task('styles', () => {
+    const AUTOPREFIXER_BROWSERS = [
+        'ie >= 10',
+        'ie_mob >= 10',
+        'ff >= 30',
+        'chrome >= 34',
+        'safari >= 7',
+        'opera >= 23',
+        'ios >= 7',
+        'android >= 4.4',
+        'bb >= 10'
+    ];
+
+    // For best performance, don't add Sass partials to `gulp.src`
+    return gulp.src([
+        'app/styles/**/*.scss',
+        'app/styles/**/*.css'
+    ])
+        .pipe($.newer('.tmp/styles'))
+        .pipe($.sourcemaps.init())
+        .pipe($.sass({
+            precision: 10
+        }).on('error', $.sass.logError))
+        .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+        .pipe(gulp.dest('.tmp/styles'))
+        // Concatenate and minify styles
+        .pipe($.if('*.css', $.cssnano()))
+        .pipe($.concat('main.min.css'))
+        .pipe($.size({title: 'styles'}))
+        .pipe($.sourcemaps.write('./'))
+        .pipe(gulp.dest('.tmp/styles'))
+        .pipe(gulp.dest('dist/styles'));
+});
+
+
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
     return gulp.src('app/**/*.html')
@@ -169,7 +172,7 @@ gulp.task('html', () => {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('copy-vendor-files', () => {
+gulp.task('copy-vendor-files', ['vendor-styles', 'vendor-scripts', 'vendor-fonts'], () => {
 
     // Local vendor files
     gulp.src([
@@ -184,8 +187,20 @@ gulp.task('copy-vendor-files', () => {
         .pipe(gulp.dest('.tmp/styles/vendors/'))
         .pipe(gulp.dest('dist/styles/vendors/'));
 
-    // Bower vendor files
+});
 
+gulp.task('vendor-styles', () => {
+    gulp.src([
+        './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        './bower_components/tether/dist/css/tether.min.css',
+        './bower_components/components-font-awesome/css/font-awesome.min.css'
+    ])
+        .pipe(gulp.dest('.tmp/styles/vendors/'))
+        .pipe(gulp.dest('dist/styles/vendors/'))
+        .pipe($.size({title: 'vendor-styles'}));
+});
+
+gulp.task('vendor-scripts', () => {
     gulp.src([
         './bower_components/jquery/dist/jquery.min.js',
         './bower_components/bootstrap/dist/js/bootstrap.min.js',
@@ -193,16 +208,11 @@ gulp.task('copy-vendor-files', () => {
         './bower_components/angular/angular.min.js'
     ])
         .pipe(gulp.dest('.tmp/scripts/vendors/'))
-        .pipe(gulp.dest('dist/scripts/vendors/'));
+        .pipe(gulp.dest('dist/scripts/vendors/'))
+        .pipe($.size({title: 'vendor-scripts'}));
+});
 
-    gulp.src([
-        './bower_components/bootstrap/dist/css/bootstrap.min.css',
-        './bower_components/tether/dist/css/tether.min.css',
-        './bower_components/components-font-awesome/css/font-awesome.min.css'
-    ])
-        .pipe(gulp.dest('.tmp/styles/vendors/'))
-        .pipe(gulp.dest('dist/styles/vendors/'));
-
+gulp.task('vendor-fonts', () => {
     gulp.src([
         './bower_components/components-font-awesome/fonts/fontawesome-webfont.woff',
         './bower_components/components-font-awesome/fonts/fontawesome-webfont.woff2',
@@ -210,8 +220,8 @@ gulp.task('copy-vendor-files', () => {
         './bower_components/components-font-awesome/fonts/fontawesome-webfont.svg'
     ])
         .pipe(gulp.dest('.tmp/styles/fonts/'))
-        .pipe(gulp.dest('dist/styles/fonts/'));
-
+        .pipe(gulp.dest('dist/styles/fonts/'))
+        .pipe($.size({title: 'vendor-fonts'}));
 });
 
 gulp.task('copy-data', () => {
