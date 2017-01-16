@@ -10,10 +10,12 @@ import browserSync from "browser-sync";
 import gulpLoadPlugins from "gulp-load-plugins";
 import yargs from "yargs";
 import file from "gulp-file";
+import ts from 'gulp-typescript';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 const argv = yargs.argv;
+const tsProject = ts.createProject('tsconfig.json');
 
 // Lint JavaScript
 gulp.task('lint', () =>
@@ -111,6 +113,18 @@ gulp.task('scripts', () =>
         .pipe(gulp.dest('dist/scripts'))
 );
 
+// Compile the TypeScript Files
+gulp.task('typescript', () => {
+   let tsResult = gulp.src('./app/components/**/*.ts')
+       .pipe($.sourcemaps.init())
+       .pipe(tsProject());
+
+   return tsResult.js
+       .pipe($.size({title: 'typescript'}))
+       .pipe($.sourcemaps.write('.'))
+       .pipe(gulp.dest('./dist/scripts/components'));
+});
+
 // Compile and automatically prefix stylesheets
 gulp.task('styles', () => {
     const AUTOPREFIXER_BROWSERS = [
@@ -205,7 +219,11 @@ gulp.task('vendor-scripts', () => {
         './bower_components/jquery/dist/jquery.min.js',
         './bower_components/bootstrap/dist/js/bootstrap.min.js',
         './bower_components/tether/dist/js/tether.min.js',
-        './bower_components/angular/angular.min.js'
+        './bower_components/angular/angular.min.js',
+        './node_modules/core-js/client/shim.min.js',
+        './node_modules/zone.js/dist/zone.min.js',
+        './node_modules/systemjs/dist/system.src.js',
+        './systemjs.config.js'
     ])
         .pipe(gulp.dest('.tmp/scripts/vendors/'))
         .pipe(gulp.dest('dist/scripts/vendors/'))
