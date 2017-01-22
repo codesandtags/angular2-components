@@ -8,6 +8,9 @@ logs
 *.log
 npm-debug.log*
 
+# test
+_test-output
+
 # Dependency directories
 node_modules
 jspm_packages
