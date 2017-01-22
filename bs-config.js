@@ -1,5 +1,5 @@
-{
-  "port": 8000,
+module.exports = {
+  "port": process.env.PORT ||8000,
   "files": [
     "./app/**/*.{html,htm,css,js}"
   ],
@@ -9,4 +9,4 @@
   "watchOptions": {
     "ignoreInitial": true
   }
-}
+};
